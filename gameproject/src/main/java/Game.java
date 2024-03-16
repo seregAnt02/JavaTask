@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.*;
 
 public class Game {
-    private static final int WIN_COUNT = 3;
+    private static final int WIN_COUNT = 4;
     private static final char DOT_HUMAN = 'X';
     private static final char DOT_AI = 'O';
     private static final char DOT_EMPTY = '.';
@@ -14,8 +14,8 @@ public class Game {
     private static final Random RANDOM = new Random();
 
     private static char[][] field;
-    private static final int SIZE_X = 3;
-    private static final int SIZE_Y = 3;
+    private static int SIZE_X = 0;
+    private static int SIZE_Y = 0;
 
     public static void main(String[] args) {
         initialize();
@@ -34,6 +34,9 @@ public class Game {
     }
 
     private static void initialize(){
+        SIZE_X = WIN_COUNT;
+        SIZE_Y = WIN_COUNT;
+
         field = new char[SIZE_X][SIZE_Y];
         for(int x = 0; x < SIZE_X; x++){
             for(int y = 0; y < SIZE_Y; y++){
@@ -41,11 +44,16 @@ public class Game {
             }
         }
 
-        patternCounts.add(0);
-        patternCounts.add(0);
-        patternCounts.add(0);
+        patternAdd();
     }
 
+    private  static  void patternAdd(){
+        int count = 0;
+        while(count == 0 || !(WIN_COUNT == count)) {
+            patternCounts.add(0);
+            count++;
+        }
+    }
     private static void printField() {
         System.out.print("+");
         for (int i = 0; i < SIZE_X * 2 + 1; i++){
@@ -134,18 +142,14 @@ public class Game {
                         }
                 }
             }
-            if(field.length -1 == i) deletingAddingArray();
+            if(field.length -1 == i){
+                patternCounts.clear();
+                patternAdd();
+            }
             //  Проверка по диагоналям
             if(field[i][i] == symbol || field[i][field.length - i - 1] == symbol ) countDiagonal++;
             if(field[i].length == countDiagonal) return true;
         }
         return false;
-    }
-
-    static void  deletingAddingArray(){
-        patternCounts.clear();
-        patternCounts.add(0);
-        patternCounts.add(0);
-        patternCounts.add(0);
     }
 }
