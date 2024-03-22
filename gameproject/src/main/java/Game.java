@@ -129,22 +129,18 @@ public class Game {
     private static boolean checkWin(char symbol) {
         int countDiagonal = 0;
         for (int i = 0; i < field.length; i++){
-            int countHorizontal = 0;
+            int countHorizontal = 0, countVertical = 0;
             for (int j = 0; j < field[i].length; j++){
                 // Проверка по трем горизонталям
                 if(field[i][j] == symbol) countHorizontal++;
                 if(field[i].length  == countHorizontal) return  true;
                 // Проверка по трем вертикалям
                 if(field[j][i] == symbol){
-                        patternCounts.set(i, patternCounts.get(i).intValue() + 1);
-                        if(field.length == patternCounts.get(i).intValue()) {
-                            return true;
-                        }
+                    countVertical++;
                 }
-            }
-            if(field.length -1 == i){
-                patternCounts.clear();
-                patternAdd();
+                if(field[j].length == countVertical){
+                    return true;
+                }
             }
             //  Проверка по диагоналям
             if(field[i][i] == symbol || field[i][field.length - i - 1] == symbol ) countDiagonal++;
