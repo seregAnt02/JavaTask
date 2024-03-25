@@ -5,6 +5,7 @@ public class User {
     private  int age;
     private  String phone;
 
+    private  String genus;
     public enum Genus {
         Male("мужской"), Female("женский");
 
@@ -18,10 +19,19 @@ public class User {
             return type;
         }
     }
-    public User(String name, int age, String phone, Genus genus) {
+    public User(String name, int age, String phone, String genus) {
         this.name = name;
         this.age = age;
         this.phone = phone;
+        this.genus = genus;
+    }
+
+    public String getGenus() {
+        return genus;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

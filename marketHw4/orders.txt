@@ -1,0 +1,2 @@
+Order{id=1, user=User{name='Иван', age=45, phone='111'}, products.txt={Product{name='Milk', price=60.0, discountAmount=0.0}=5}, holiday='2024-03-25', count=2}
+Order{id=2, user=User{name='Маша', age=30, phone='333'}, products.txt={Product{name='bread', price=40.0, discountAmount=0.0}=10}, holiday='2024-03-25', count=2}

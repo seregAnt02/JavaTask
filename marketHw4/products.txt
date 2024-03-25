@@ -1,0 +1,2 @@
+Product{name='Milk', price=60.0, discountAmount=0.0}:5
+Product{name='bread', price=40.0, discountAmount=0.0}:10
