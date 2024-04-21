@@ -18,12 +18,12 @@ public class Homework {
       MyClass myClass = new MyClass();
       RandomDateProcessor.processRandomDate(myClass);
 
-    System.out.println(new Date(myClass.dateRandom));
+    System.out.println(myClass.dateRandom);
   }
 
   private static class MyClass{
     @RandomDate
-    private long dateRandom;
+    private Date dateRandom;
   }
 
 }

@@ -16,7 +16,11 @@ public class RandomDateProcessor {
                 declaredField.setAccessible(true);
 
                 try {
-                    declaredField.set(obj, ThreadLocalRandom.current().nextLong(min, max));
+                    declaredField.set(obj, new Date(
+                            ThreadLocalRandom
+                                    .current()
+                                    .nextLong(min, max)
+                    ));
                 } catch (IllegalAccessException e){
                     System.err.println("Не удалось подставить рандомное значение: " + e);
                 }
