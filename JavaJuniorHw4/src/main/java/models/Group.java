@@ -6,25 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "group")
+@Table(name = "groups")
 public class Group {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "name")
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "students_id")
-    private List<Student> students;
-
 
     public Group() {
     }
 
-   /* public void addStudents(Student student){
+    public Group(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    /* public void addStudents(Student student){
         students.add(student);
     }*/
 
@@ -44,5 +44,11 @@ public class Group {
         this.name = name;
     }
 
-
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

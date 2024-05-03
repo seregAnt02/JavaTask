@@ -8,6 +8,7 @@ import org.hibernate.cfg.Configuration;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Homework {
 
@@ -29,47 +30,66 @@ public class Homework {
   static void run(Connection connection){
     Configuration configuration = new Configuration().configure();
     try (SessionFactory sessionFactory = configuration.buildSessionFactory()) {
-      persist(sessionFactory);
-      find(sessionFactory);
-      remove(sessionFactory);
+      try (Session session = sessionFactory.openSession()) {
+        createStudent(session);
+        createGroup(session);
+        updateStudent(session, 1L);
+        find(session);
+        remove(session, 1L);
+        selectAll(session);
+      }
     }
   }
 
-  static Student student;
-  static void persist(SessionFactory sessionFactory){
-    try (Session session = sessionFactory.openSession()) {
-      student = new Student();
-      student.setId(123L);
-      student.setFirst_name("Petr");
-      student.setLast_name("Petrov");
+  private static void createGroup(Session session) {
+      Group group = new Group(1L, "A1");
+      session.beginTransaction();
+      session.persist(group);
+      session.getTransaction().commit();
+      System.out.println("вставка группы: " + group);
+  }
+  private static void createStudent(Session session) {
+      Student student = new Student(1L, "Ivanov", "Ivan", 1L);
+      session.beginTransaction();
+      session.persist(student);
+      session.getTransaction().commit();
+      System.out.println("вставка студента: " + student);
+  }
 
-      Group group = new Group();
-      group.setName("1A");
-      //group.addStudents(student);
-
+  private static void updateStudent(Session session, Long id) {
+      Student updatedStudent = selectStudentByID(session, id);
+      updatedStudent.setFirst_name("Jim");
+      updatedStudent.setLast_name("Hopkins");
       Transaction tx = session.beginTransaction();
-      session.persist(student); // Persist
-      //session.persist(group);
+      session.merge(updatedStudent);
       tx.commit();
-
-    } catch (Exception e){
-      System.out.println(e.getMessage());
-    }
+      System.out.println("обновление студента: " + selectStudentByID(session, id));
   }
 
+  private static Student selectStudentByID(Session session, Long id) {
+    return session.find(Student.class, id);
+  }
 
-  static void find(SessionFactory sessionFactory){
-    try (Session session = sessionFactory.openSession()) {
-      Student student = session.find(Student.class, 123L);
+  static void find(Session session){
+      Student student = session.find(Student.class, 1L);
       System.out.println(student); // Find
-    }
   }
 
-  static void remove(SessionFactory sessionFactory){
-    try (Session session = sessionFactory.openSession()) {
+  static void remove(Session session, Long id){
+      Student student = selectStudentByID(session, id);
       Transaction tx = session.beginTransaction();
       session.remove(student); // Remove
       tx.commit();
-    }
+      System.out.println("удаление студента:" + student);
+  }
+
+  /** 3. ... поупражняться с разными запросами ...*/
+  private static void selectAll(Session session) {
+      System.out.println("список студентов и групп: ");
+      List<Group> groups = session.createQuery("FROM Group", Group.class).getResultList();
+      groups.forEach(System.out::println);
+
+      List<Student> students = session.createQuery("FROM Student", Student.class).getResultList();
+      students.forEach(System.out::println);
   }
 }

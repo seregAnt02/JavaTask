@@ -30,7 +30,7 @@
         <mapping class="lesson4.User"/>
         <mapping class="lesson4.Pet"/>
         <mapping class="models.Student"/>
-        <!--<mapping class="models.Group"/>-->
+        <mapping class="models.Group"/>
 
     </session-factory>
 </hibernate-configuration>
