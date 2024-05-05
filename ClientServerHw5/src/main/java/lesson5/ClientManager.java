@@ -2,9 +2,7 @@ package lesson5;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ClientManager implements Runnable{
@@ -31,8 +29,9 @@ public class ClientManager implements Runnable{
         while (socket.isConnected()){
             try {
                 massageFromClient = bufferedReader.readLine();
-                broadcastMessage(massageFromClient);
-                //System.out.println(massageFromClient);
+                String[] nameMessage = parsMessage(massageFromClient);
+                if(nameMessage[2].equals("all")) sendMessageToAll(nameMessage);
+                else sendMessageToClient(nameMessage);
             } catch (IOException e){
                 closeEverything(socket, bufferedReader, bufferedWriter);
                 break;
@@ -40,11 +39,31 @@ public class ClientManager implements Runnable{
         }
     }
 
-    private void broadcastMessage(String massageToSend) {
+    private String[] parsMessage(String massageToSend){
+        String[] mas = massageToSend.split(":");
+        return mas;
+    }
+
+    private void sendMessageToClient(String[] nameMessage){
+        for (var client: clients.entrySet()) {
+            try {
+                if (client.getKey().equals(nameMessage[2]) && !nameMessage[2].equals(name)) {
+                    client.getValue().bufferedWriter.write("от: " + name + " кому: " + nameMessage[2] +
+                            ", сообщение: " + nameMessage[1]);
+                    client.getValue().bufferedWriter.newLine();
+                    client.getValue().bufferedWriter.flush();
+                }
+            } catch (IOException e){
+                closeEverything(socket, bufferedReader, bufferedWriter);
+            }
+        }
+    }
+    private void sendMessageToAll(String[] nameMessage) {
         for (var client: clients.entrySet()) {
             try {
                 if (!client.getKey().equals(name)) {
-                    client.getValue().bufferedWriter.write(massageToSend);
+                    client.getValue().bufferedWriter.write("от: " + name + " кому: " + nameMessage[2] +
+                            ", сообщение: " + nameMessage[1]);
                     client.getValue().bufferedWriter.newLine();
                     client.getValue().bufferedWriter.flush();
                 }
@@ -74,7 +93,7 @@ public class ClientManager implements Runnable{
 
     public void removeClient(){
         clients.remove(this);
-        broadcastMessage("SERVER: "+name+" покинул чат.");
+        sendMessageToAll(new String[]{this.name , "SERVER: " + name +" покинул чат.", "all"});
     }
 
 }

@@ -29,8 +29,13 @@ public class Client {
             bufferedWriter.flush();
             Scanner scanner = new Scanner(System.in);
             while (socket.isConnected()){
+                System.out.println("Кому сообщение(имя пользователя или all): ");
+                String toUser = scanner.nextLine();
+                System.out.println("Введите текст сообщения: ");
                 String message = scanner.nextLine();
-                bufferedWriter.write(name+": "+ message);
+
+                String modelJsOn = String.format("%s:%s:%s",name, message, toUser);
+                bufferedWriter.write(modelJsOn);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
