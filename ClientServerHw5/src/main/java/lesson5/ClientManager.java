@@ -59,7 +59,7 @@ public class ClientManager implements Runnable{
     private void sendMessageToClient(Message message){
         for (var client: clients.entrySet()) {
             try {
-                if (client.getKey().equals(message.getToName()) && !message.getMassage().equals(name)) {
+                if (client.getKey().equals(message.getToName()) && !message.getName().equals(name)) {
                     client.getValue().output.writeObject(message);
                     client.getValue().output.flush();
                 }
