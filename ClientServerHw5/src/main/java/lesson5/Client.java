@@ -6,56 +6,54 @@ import java.util.Scanner;
 
 public class Client {
     private Socket socket;
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
     private String name;
 
-    public Client(Socket socket,  String userName) {
+    public Client(Socket socket,  String userName) throws IOException, ClassNotFoundException {
         this.socket = socket;
         this.name = userName;
-        try {
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            closeEverything(socket, bufferedReader, bufferedWriter);
-        }
-
+        this.output = new ObjectOutputStream(socket.getOutputStream());
+        this.input = new ObjectInputStream(socket.getInputStream());
     }
 
     public void sendMessage(){
         try {
-            bufferedWriter.write(name);
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
+
+            Message modelMessage = new Message(name,null, null );
+            output.writeObject(modelMessage);
+            output.flush();
             Scanner scanner = new Scanner(System.in);
             while (socket.isConnected()){
                 System.out.println("Кому сообщение(имя пользователя или all): ");
                 String toUser = scanner.nextLine();
                 System.out.println("Введите текст сообщения: ");
-                String message = scanner.nextLine();
-
-                String modelJsOn = String.format("%s:%s:%s",name, message, toUser);
-                bufferedWriter.write(modelJsOn);
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
+                String messageOut = scanner.nextLine();
+                modelMessage = new Message(name, toUser, messageOut);
+                modelSerializable(modelMessage);
+                System.out.println("модель отправлена через сервер, к клиенту: " + modelMessage);
             }
         } catch (IOException e){
-            closeEverything(socket, bufferedReader, bufferedWriter);
+            closeEverything(socket);
         }
     }
 
+    private void modelSerializable(Message modelMessage) throws IOException {
+        this.output.writeObject(modelMessage);
+        this.output.flush();
+    }
 
     public void listenForMessage(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String messageFromGroup;
+                Message modelMessage;
                 while (socket.isConnected()){
                     try {
-                        messageFromGroup = bufferedReader.readLine();
-                        System.out.println(messageFromGroup);
-                    } catch (IOException e){
-                        closeEverything(socket, bufferedReader, bufferedWriter);
+                        modelMessage = (Message) input.readObject();
+                        System.out.println("ответ от сервера, в виде десериализаций объекта: " + modelMessage);
+                    } catch (IOException | ClassNotFoundException e){
+                        closeEverything(socket);
                     }
                 }
             }
@@ -63,14 +61,13 @@ public class Client {
     }
 
 
-    private void closeEverything(Socket socket, BufferedReader bufferedReader,
-                                 BufferedWriter bufferedWriter) {
+    private void closeEverything(Socket socket) {
         try {
-            if (bufferedReader != null) {
-                bufferedReader.close();
+            if (input != null) {
+                input.close();
             }
-            if (bufferedWriter != null) {
-                bufferedWriter.close();
+            if (output != null) {
+                output.close();
             }
             if (socket != null) {
                 socket.close();

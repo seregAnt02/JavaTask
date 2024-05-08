@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class RunServer {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         ServerSocket serverSocket = new ServerSocket(1300);
         Server server = new Server(serverSocket);
         server.runServer();

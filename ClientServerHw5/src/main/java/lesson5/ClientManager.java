@@ -9,34 +9,46 @@ public class ClientManager implements Runnable{
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
+    private final ObjectInputStream input;
+    private final ObjectOutputStream output;
     private String name;
-    //public static ArrayList<ClientManager> clients = new ArrayList<>();
     public static Map<String, ClientManager> clients = new HashMap<>();
 
-    public ClientManager(Socket socket) throws IOException {
+    public ClientManager(Socket socket) throws IOException, ClassNotFoundException {
         this.socket = socket;
-        bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        name = bufferedReader.readLine();
-        clients.put(name, this);
+        this.input = new ObjectInputStream(socket.getInputStream());
+        this.output = new ObjectOutputStream(socket.getOutputStream());
+
+        Message message = modelDeserialization();
+        clients.put(message.getName(), this);
 
     }
 
     @Override
     public void run() {
-        String massageFromClient;
-
         while (socket.isConnected()){
             try {
-                massageFromClient = bufferedReader.readLine();
-                String[] nameMessage = parsMessage(massageFromClient);
-                if(nameMessage[2].equals("all")) sendMessageToAll(nameMessage);
-                else sendMessageToClient(nameMessage);
-            } catch (IOException e){
-                closeEverything(socket, bufferedReader, bufferedWriter);
-                break;
+               Message message  = modelDeserialization();
+               if(message.getToName().equals("all")) sendMessageToAll(message);
+               else sendMessageToClient(message);
+            } catch (IOException e) {
+                closeEverything();
+            } catch (ClassNotFoundException e) {
+                closeEverything();
             }
+
         }
+    }
+    private Message modelDeserialization() throws IOException, ClassNotFoundException {
+        Message message = (Message) input.readObject();
+        System.out.println("десерилизация объекта " + message.getClass() + ": " + message.getName());
+        return message;
+    }
+    private void modelSerializable() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+        Message message = new Message("user", "user1", "test");
+        oos.writeObject(message);
+        oos.flush();
     }
 
     private String[] parsMessage(String massageToSend){
@@ -44,44 +56,39 @@ public class ClientManager implements Runnable{
         return mas;
     }
 
-    private void sendMessageToClient(String[] nameMessage){
+    private void sendMessageToClient(Message message){
         for (var client: clients.entrySet()) {
             try {
-                if (client.getKey().equals(nameMessage[2]) && !nameMessage[2].equals(name)) {
-                    client.getValue().bufferedWriter.write("от: " + name + " кому: " + nameMessage[2] +
-                            ", сообщение: " + nameMessage[1]);
-                    client.getValue().bufferedWriter.newLine();
-                    client.getValue().bufferedWriter.flush();
+                if (client.getKey().equals(message.getToName()) && !message.getMassage().equals(name)) {
+                    client.getValue().output.writeObject(message);
+                    client.getValue().output.flush();
                 }
             } catch (IOException e){
-                closeEverything(socket, bufferedReader, bufferedWriter);
+                closeEverything();
             }
         }
     }
-    private void sendMessageToAll(String[] nameMessage) {
+    private void sendMessageToAll(Message message) {
         for (var client: clients.entrySet()) {
             try {
-                if (!client.getKey().equals(name)) {
-                    client.getValue().bufferedWriter.write("от: " + name + " кому: " + nameMessage[2] +
-                            ", сообщение: " + nameMessage[1]);
-                    client.getValue().bufferedWriter.newLine();
-                    client.getValue().bufferedWriter.flush();
+                if (!client.getKey().equals(message.getName())) {
+                    client.getValue().output.writeObject(message);
+                    client.getValue().output.flush();
                 }
             } catch (IOException e){
-                closeEverything(socket, bufferedReader, bufferedWriter);
+                closeEverything();
             }
         }
     }
 
-    private void closeEverything(Socket socket, BufferedReader bufferedReader,
-                                BufferedWriter bufferedWriter) {
+    private void closeEverything() {
         removeClient();
         try {
-            if (bufferedReader != null) {
-                bufferedReader.close();
+            if (input != null) {
+                input.close();
             }
-            if (bufferedWriter != null) {
-                bufferedWriter.close();
+            if (output != null) {
+                output.close();
             }
             if (socket != null) {
                 socket.close();
@@ -93,7 +100,7 @@ public class ClientManager implements Runnable{
 
     public void removeClient(){
         clients.remove(this);
-        sendMessageToAll(new String[]{this.name , "SERVER: " + name +" покинул чат.", "all"});
+        sendMessageToAll(new Message(name, "all", "SERVER: " + name +" покинул чат."));
     }
 
 }

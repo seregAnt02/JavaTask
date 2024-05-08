@@ -11,7 +11,7 @@ public class Server {
         this.serverSocket = serverSocket;
     }
 
-    public void runServer() {
+    public void runServer() throws ClassNotFoundException{
         try {
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();

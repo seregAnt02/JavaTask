@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class RunClient {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ввыдите своё имя: ");
         String name = scanner.nextLine();
@@ -14,6 +14,5 @@ public class RunClient {
         Client client = new Client(socket, name);
         client.listenForMessage();
         client.sendMessage();
-
     }
 }
