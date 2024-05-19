@@ -5,12 +5,12 @@
 
 Установка maven
 
-![](D:\JavaTask\Spring-root\image\img_001.png)
+![](image/img_001.png)
 
 Генерация проекта
 
-![](D:\JavaTask\Spring-root\image\img_002.png)
+![](image/img_002.png)
 
 Запуск проекта
 
-![](D:\JavaTask\Spring-root\image\img_003.png)
+![](image/img_003.png)
