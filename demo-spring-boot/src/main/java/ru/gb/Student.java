@@ -9,8 +9,8 @@ public class Student {
     private static Long idCounter = 1L;
 
     private final Long id;
-    private final String name;
-    private final String groupName;
+    private String name;
+    private String groupName;
 
 
 
