@@ -1,11 +1,13 @@
 package ru.gb;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Component
 public class StudentRepository {
     private final List<Student> repository;
@@ -17,6 +19,7 @@ public class StudentRepository {
         repository.add(new Student( "User3", "01A"));
         repository.add(new Student( "User4", "02B"));
         repository.add(new Student( "User5", "01A"));
+        log.info("add constructor");
     }
 
     public Student getById(Long id){
