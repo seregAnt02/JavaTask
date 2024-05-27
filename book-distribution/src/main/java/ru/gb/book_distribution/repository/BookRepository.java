@@ -25,11 +25,8 @@ public class BookRepository {
         ));
     }
 
-    public Book getBookById(long id){
-       return books.stream()
-               .filter(it -> Objects.equals(it.getId(), id))
-               .findFirst()
-               .orElse(null);
+    public  List<Book> getAll(){
+        return books;
     }
 
 }

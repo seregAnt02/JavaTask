@@ -17,4 +17,8 @@ public class IssueRepository {
     public void save(Issue issue){
         issues.add(issue);
     }
+
+    public List<Issue> getAll(){
+        return issues;
+    }
 }

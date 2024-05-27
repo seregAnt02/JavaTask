@@ -7,10 +7,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Book {
     private static long sequence = 1L;
-    private final long id;
-    private final String name;
+    private long id;
+    private String name;
 
     public Book(String name) {
         this(sequence++, name);
+    }
+
+    public Book(long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 }

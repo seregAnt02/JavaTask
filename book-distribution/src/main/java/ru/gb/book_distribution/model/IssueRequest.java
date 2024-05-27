@@ -1,4 +1,4 @@
-package ru.gb.book_distribution.app;
+package ru.gb.book_distribution.model;
 
 import lombok.Data;
 
