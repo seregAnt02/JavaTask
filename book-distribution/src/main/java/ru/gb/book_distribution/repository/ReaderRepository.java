@@ -32,4 +32,7 @@ public class ReaderRepository {
                 .findFirst()
                 .orElse(null);
     }
+    public  List<Reader> getAll(){
+        return readers;
+    }
 }

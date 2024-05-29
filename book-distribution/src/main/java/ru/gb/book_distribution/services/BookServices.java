@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.gb.book_distribution.model.Book;
 import ru.gb.book_distribution.repository.BookRepository;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -13,6 +14,9 @@ public class BookServices {
 
     private final BookRepository repository;
 
+    public List<Book> getAllByBook(){
+        return repository.getAll();
+    }
     public Book getBookById(long id){
         return repository.getAll().stream()
                 .filter(it -> Objects.equals(it.getId(), id))

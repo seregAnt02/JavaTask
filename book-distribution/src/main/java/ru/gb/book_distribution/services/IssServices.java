@@ -5,9 +5,12 @@ import org.springframework.stereotype.Service;
 import ru.gb.book_distribution.model.Book;
 import ru.gb.book_distribution.model.IssueRequest;
 import ru.gb.book_distribution.model.Issue;
+import ru.gb.book_distribution.model.Reader;
 import ru.gb.book_distribution.repository.IssueRepository;
 import ru.gb.book_distribution.repository.ReaderRepository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -27,10 +30,23 @@ public class IssServices {
                 .orElse(null);
     }
 
-    public Issue createIssue(Issue issue){
-        Issue outIssue = new Issue(issue.getBookId(), issue.getReaderId());
-        repository.getAll().add(outIssue);
-        return outIssue ;
+    public Issue createIssue(IssueRequest request){
+        Book book = services.getBookById(request.getBookId());
+        if(book == null){
+            throw new NoSuchElementException("Не найдена книга с идентификатором: " + request.getBookId());
+        }
+        Reader reader = readerRepository.getReaderById(request.getReadId());
+        if(reader == null){
+            throw new NoSuchElementException("Не найдена читатель с идентификатором: " + request.getReadId());
+        }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        Issue issue = new Issue(request.getBookId(), request.getReadId());
+        issue.setNameBook(book.getName());
+        issue.setNameRead(reader.getName());
+        //issue.setEndTimestamp(dtf.format(LocalDateTime.now()));
+        repository.getAll().add(issue);
+        return issue ;
     }
     public List<Issue> getAll(){
         return repository.getAll();
@@ -45,10 +61,12 @@ public class IssServices {
         return null;
     }
     public Issue issue(IssueRequest request){
-        if(services.getBookById(request.getBookId()) == null){
+        Book book = services.getBookById(request.getBookId());
+        if(book == null){
             throw new NoSuchElementException("Не найдена книга с идентификатором: " + request.getBookId());
         }
-        if(readerRepository.getReaderById(request.getReadId()) == null){
+        Reader reader = readerRepository.getReaderById(request.getReadId());
+        if(reader == null){
             throw new NoSuchElementException("Не найдена читатель с идентификатором: " + request.getReadId());
         }
 

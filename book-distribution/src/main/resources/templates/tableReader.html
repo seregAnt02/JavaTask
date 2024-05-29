@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Таблица читателей</title>
+</head>
+<body>
+    <h1>Table</h1>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>NameBook</th>
+            <th>BookId</th>
+            <th>NameRead</th>
+            <th>ReaderId</th>
+            <th>StartTime</th>
+            <th>EndTime</th>
+        </tr>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.getId()}"></td>
+            <td th:text="${item.getNameBook()}"></td>
+            <td th:text="${item.getBookId()}"></td>
+            <td th:text="${item.getNameRead()}"></td>
+            <td th:text="${item.getReaderId()}"></td>
+            <td th:text="${item.getStartTimestamp()}"></td>
+            <td th:text="${item.getEndTimestamp()}"></td>
+        </tr>
+    </table>
+</body>
+</html>
