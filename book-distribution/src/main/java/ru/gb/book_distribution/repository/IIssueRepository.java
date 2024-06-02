@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import ru.gb.book_distribution.model.Issue;
 
 @Repository
-public interface IIssRepository extends JpaRepository<Issue, Long> {
+public interface IIssueRepository extends JpaRepository<Issue, Long> {
 
 }

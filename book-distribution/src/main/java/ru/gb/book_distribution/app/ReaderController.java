@@ -6,10 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.gb.book_distribution.model.Book;
 import ru.gb.book_distribution.model.Reader;
-import ru.gb.book_distribution.services.BookServices;
-import ru.gb.book_distribution.services.ReaderServices;
+import ru.gb.book_distribution.services.ReaderService;
 
 import java.util.List;
 
@@ -18,9 +16,9 @@ import java.util.List;
 @RequestMapping(path = "/ui")
 public class ReaderController {
     @Autowired
-    private final ReaderServices services;
+    private final ReaderService services;
 
-    public ReaderController(ReaderServices services) {
+    public ReaderController(ReaderService services) {
         this.services = services;
     }
 

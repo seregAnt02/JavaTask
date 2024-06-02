@@ -7,8 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.book_distribution.model.Issue;
 import ru.gb.book_distribution.model.IssueRequest;
-import ru.gb.book_distribution.services.IIssServices;
-import ru.gb.book_distribution.services.IssServices;
+import ru.gb.book_distribution.services.IIssueService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,7 +18,7 @@ import java.util.NoSuchElementException;
 public class IssueApiController {
 
     @Autowired
-    IIssServices services;
+    IIssueService services;
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Issue> getIssById(@PathVariable long id){

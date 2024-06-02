@@ -6,8 +6,7 @@ import ru.gb.book_distribution.model.Book;
 import ru.gb.book_distribution.model.IssueRequest;
 import ru.gb.book_distribution.model.Issue;
 import ru.gb.book_distribution.model.Reader;
-import ru.gb.book_distribution.repository.IIssRepository;
-import ru.gb.book_distribution.repository.IssueRepository;
+import ru.gb.book_distribution.repository.IIssueRepository;
 import ru.gb.book_distribution.repository.ReaderRepository;
 
 import java.time.LocalDateTime;
@@ -18,10 +17,10 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class IssServices implements IIssServices {
-    private final IBookServices services;
+public class IssueService implements IIssueService {
+    private final IBookService services;
     private final ReaderRepository readerRepository;
-    private final IIssRepository repository;
+    private final IIssueRepository repository;
 
 
    /* public Issue getIssById(long id){

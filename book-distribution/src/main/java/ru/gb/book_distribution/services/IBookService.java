@@ -4,7 +4,7 @@ import ru.gb.book_distribution.model.Book;
 
 import java.util.List;
 
-public interface IBookServices {
+public interface IBookService {
     List<Book> getAllBooks();
     Book getBookById(Long id);
     Book createBook(Book book);

@@ -1,11 +1,10 @@
 package ru.gb.book_distribution.app;
 
-import com.sun.source.tree.LambdaExpressionTree;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.book_distribution.model.Book;
-import ru.gb.book_distribution.services.BookServices;
+import ru.gb.book_distribution.services.BookService;
 
 import java.util.List;
 
@@ -15,9 +14,9 @@ import java.util.List;
 public class BookController {
 
     @Autowired
-    private final BookServices services;
+    private final BookService services;
 
-    public BookController(BookServices bookServices) {
+    public BookController(BookService bookServices) {
         this.services = bookServices;
     }
 

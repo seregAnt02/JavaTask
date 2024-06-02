@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.gb.book_distribution.model.Book;
-import ru.gb.book_distribution.repository.BookRepository;
 import ru.gb.book_distribution.repository.IBookRepository;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class BookServices implements IBookServices{
+public class BookService implements IBookService {
 
     @Autowired
     private IBookRepository repository;
