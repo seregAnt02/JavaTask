@@ -54,7 +54,7 @@ public class IssServices implements IIssServices {
         issue.setNameBook(book.getName());
         issue.setNameRead(reader.getName());
         issue.setEndTimestamp(dtf.format(LocalDateTime.now()));
-        repository.findAll().add(issue);
+        repository.save(issue);
         return issue ;
     }
     public List<Issue> getAll(){

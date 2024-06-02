@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gb.book_distribution.model.Issue;
 import ru.gb.book_distribution.model.IssueRequest;
 import ru.gb.book_distribution.model.Reader;
+import ru.gb.book_distribution.services.IIssServices;
 import ru.gb.book_distribution.services.IssServices;
 
 import java.util.List;
@@ -23,10 +24,10 @@ import java.util.NoSuchElementException;
 @RequestMapping(path = "/ui")
 public class IssueController {
     @Autowired
-    private final IssServices services;
+    private final IIssServices services;
 
 
-    public IssueController(IssServices services) {
+    public IssueController(IIssServices services) {
         this.services = services;
     }
 
