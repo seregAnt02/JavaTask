@@ -28,7 +28,7 @@ public class HomeController {
 
     @GetMapping(path = "/books")
     public String list(Model model){
-        List<Book> books = this.services.getAllByBook();
+        List<Book> books = this.services.getAllBooks();
         model.addAttribute("items", books);
         log.info("Список книг" + books);
         return "list";

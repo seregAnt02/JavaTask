@@ -6,6 +6,7 @@ import ru.gb.book_distribution.model.Book;
 import ru.gb.book_distribution.model.IssueRequest;
 import ru.gb.book_distribution.model.Issue;
 import ru.gb.book_distribution.model.Reader;
+import ru.gb.book_distribution.repository.IIssRepository;
 import ru.gb.book_distribution.repository.IssueRepository;
 import ru.gb.book_distribution.repository.ReaderRepository;
 
@@ -17,14 +18,14 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class IssServices {
-    private final BookServices services;
+public class IssServices implements IIssServices {
+    private final IBookServices services;
     private final ReaderRepository readerRepository;
-    private final IssueRepository repository;
+    private final IIssRepository repository;
 
 
     public Issue getIssById(long id){
-        return repository.getAll().stream()
+        return repository.findAll().stream()
                 .filter(it -> Objects.equals(it.getId(), id))
                 .findFirst()
                 .orElse(null);
@@ -45,17 +46,17 @@ public class IssServices {
         issue.setNameBook(book.getName());
         issue.setNameRead(reader.getName());
         //issue.setEndTimestamp(dtf.format(LocalDateTime.now()));
-        repository.getAll().add(issue);
+        repository.findAll().add(issue);
         return issue ;
     }
     public List<Issue> getAll(){
-        return repository.getAll();
+        return repository.findAll();
     }
 
     public Issue deleteIssue(long id){
         Issue issue = getIssById(id);
         if(issue != null){
-            repository.getAll().removeIf(it -> Objects.equals(it.getId(), id));
+            repository.findAll().removeIf(it -> Objects.equals(it.getId(), id));
             return issue;
         }
         return null;
