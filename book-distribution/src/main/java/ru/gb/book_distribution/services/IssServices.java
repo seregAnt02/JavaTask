@@ -24,7 +24,15 @@ public class IssServices implements IIssServices {
     private final IIssRepository repository;
 
 
-    public Issue getIssById(long id){
+   /* public Issue getIssById(long id){
+        return repository.findAll().stream()
+                .filter(it -> Objects.equals(it.getId(), id))
+                .findFirst()
+                .orElse(null);
+    }*/
+
+    @Override
+    public Issue getIssById(Long id) {
         return repository.findAll().stream()
                 .filter(it -> Objects.equals(it.getId(), id))
                 .findFirst()
@@ -45,7 +53,7 @@ public class IssServices implements IIssServices {
         Issue issue = new Issue(request.getBookId(), request.getReadId());
         issue.setNameBook(book.getName());
         issue.setNameRead(reader.getName());
-        //issue.setEndTimestamp(dtf.format(LocalDateTime.now()));
+        issue.setEndTimestamp(dtf.format(LocalDateTime.now()));
         repository.findAll().add(issue);
         return issue ;
     }
@@ -53,7 +61,8 @@ public class IssServices implements IIssServices {
         return repository.findAll();
     }
 
-    public Issue deleteIssue(long id){
+    @Override
+    public Issue deleteIssue(Long id) {
         Issue issue = getIssById(id);
         if(issue != null){
             repository.findAll().removeIf(it -> Objects.equals(it.getId(), id));
@@ -61,6 +70,15 @@ public class IssServices implements IIssServices {
         }
         return null;
     }
+
+   /* public Issue deleteIssue(long id){
+        Issue issue = getIssById(id);
+        if(issue != null){
+            repository.findAll().removeIf(it -> Objects.equals(it.getId(), id));
+            return issue;
+        }
+        return null;
+    }*/
     public Issue issue(IssueRequest request){
         Book book = services.getBookById(request.getBookId());
         if(book == null){

@@ -1,5 +1,6 @@
 package ru.gb.book_distribution.app;
 
+import com.sun.source.tree.LambdaExpressionTree;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +47,9 @@ public class BookController {
 
     @DeleteMapping(path = "/{id}")
     public void deleteBook(@PathVariable Long id){
-        this.services.deleteBook(id);
-        log.info("Удаление книги из списка:" + id);
+        Book book = this.services.deleteBook(id);
+        if(book != null)
+            log.info("Удаление книги из списка:" + id);
     }
 
     /*@Autowired

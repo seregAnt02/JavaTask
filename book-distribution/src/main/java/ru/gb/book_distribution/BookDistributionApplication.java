@@ -12,7 +12,7 @@ public class BookDistributionApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context	= SpringApplication.run(BookDistributionApplication.class, args);
 
-		IBookRepository bookRepository = context.getBean(IBookRepository.class);
+		/*IBookRepository bookRepository = context.getBean(IBookRepository.class);
 
 		Book book = new Book();
 		book.setId(1L);
@@ -25,7 +25,7 @@ public class BookDistributionApplication {
 		bookRepository.save(book1);
 
 		System.out.println("findByName" + bookRepository.findByName("Tom"));
-		System.out.println("findById: " + bookRepository.findById(1L).get());
+		System.out.println("findById: " + bookRepository.findById(1L).get());*/
 	}
 
 }
