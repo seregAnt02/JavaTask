@@ -3,8 +3,6 @@ package ru.gb.book_distribution;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import ru.gb.book_distribution.model.Book;
-import ru.gb.book_distribution.repository.IBookRepository;
 
 @SpringBootApplication
 public class BookDistributionApplication {

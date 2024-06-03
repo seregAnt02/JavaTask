@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.book_distribution.model.Issue;
 import ru.gb.book_distribution.model.IssueRequest;
-import ru.gb.book_distribution.services.IIssueService;
+import ru.gb.book_distribution.repository.IssueRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,11 +18,11 @@ import java.util.NoSuchElementException;
 public class IssueApiController {
 
     @Autowired
-    IIssueService services;
+    IssueRepository repository;
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Issue> getIssById(@PathVariable long id){
-        Issue issue = services.getIssById(id);
+        Issue issue = repository.findById(id).get();
         if(issue != null)
             log.info("Пользователь найден: " + issue);
         log.info("Внимание! Пользователь не найден: " + issue);
@@ -34,7 +34,7 @@ public class IssueApiController {
     public ResponseEntity<Issue> crateIssue(@RequestBody IssueRequest issueRequest){
         Issue issue = null;
         try{
-            issue = this.services.createIssue(issueRequest);
+            issue = this.repository.save(new Issue(issueRequest.getBookId(), issueRequest.getReadId()));
             if(issue != null)
                 log.info("Создание читателя: " + issue);
         }catch (NoSuchElementException ex){
@@ -46,16 +46,14 @@ public class IssueApiController {
 
     @GetMapping( path = "/all")
     public List<Issue> getAll(){
-        return services.getAll();
+        return repository.findAll();
     }
 
     @DeleteMapping(path = "/{id}")
     public void deleteIssue(@PathVariable long id){
-        Issue issue = null;
         try{
-            issue = this.services.deleteIssue(id);
-            if(issue != null)
-                log.info("Удаление читателя: " + issue);
+            this.repository.deleteById(id);
+            log.info("Удаление читателя: " + id);
         }catch (NoSuchElementException ex){
             log.info("Внимание! Удалить читателя не удалось");
             ResponseEntity.notFound().build();

@@ -6,7 +6,8 @@ import ru.gb.book_distribution.model.Book;
 import ru.gb.book_distribution.model.IssueRequest;
 import ru.gb.book_distribution.model.Issue;
 import ru.gb.book_distribution.model.Reader;
-import ru.gb.book_distribution.repository.IIssueRepository;
+import ru.gb.book_distribution.repository.BookRepository;
+import ru.gb.book_distribution.repository.IssueRepository;
 import ru.gb.book_distribution.repository.ReaderRepository;
 
 import java.time.LocalDateTime;
@@ -17,29 +18,20 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class IssueService implements IIssueService {
-    private final IBookService services;
+public class StandardIssueService{
+    private final BookRepository bookRepository;
     private final ReaderRepository readerRepository;
-    private final IIssueRepository repository;
+    private final IssueRepository issueRepository;
 
-
-   /* public Issue getIssById(long id){
-        return repository.findAll().stream()
-                .filter(it -> Objects.equals(it.getId(), id))
-                .findFirst()
-                .orElse(null);
-    }*/
-
-    @Override
     public Issue getIssById(Long id) {
-        return repository.findAll().stream()
+        return issueRepository.findAll().stream()
                 .filter(it -> Objects.equals(it.getId(), id))
                 .findFirst()
                 .orElse(null);
     }
 
     public Issue createIssue(IssueRequest request){
-        Book book = services.getBookById(request.getBookId());
+        Book book = bookRepository.findById(request.getBookId()).get();
         if(book == null){
             throw new NoSuchElementException("Не найдена книга с идентификатором: " + request.getBookId());
         }
@@ -53,33 +45,25 @@ public class IssueService implements IIssueService {
         issue.setNameBook(book.getName());
         issue.setNameRead(reader.getName());
         issue.setEndTimestamp(dtf.format(LocalDateTime.now()));
-        repository.save(issue);
+        issueRepository.save(issue);
         return issue ;
     }
     public List<Issue> getAll(){
-        return repository.findAll();
+        return issueRepository.findAll();
     }
 
-    @Override
     public Issue deleteIssue(Long id) {
         Issue issue = getIssById(id);
         if(issue != null){
-            repository.findAll().removeIf(it -> Objects.equals(it.getId(), id));
+            issueRepository.findAll().removeIf(it -> Objects.equals(it.getId(), id));
             return issue;
         }
         return null;
     }
 
-   /* public Issue deleteIssue(long id){
-        Issue issue = getIssById(id);
-        if(issue != null){
-            repository.findAll().removeIf(it -> Objects.equals(it.getId(), id));
-            return issue;
-        }
-        return null;
-    }*/
+
     public Issue issue(IssueRequest request){
-        Book book = services.getBookById(request.getBookId());
+        Book book = bookRepository.findById(request.getBookId()).get();
         if(book == null){
             throw new NoSuchElementException("Не найдена книга с идентификатором: " + request.getBookId());
         }
@@ -89,7 +73,7 @@ public class IssueService implements IIssueService {
         }
 
         Issue issue = new Issue(request.getBookId(),request.getReadId());
-        repository.save(issue);
+        issueRepository.save(issue);
         return issue;
     }
 }

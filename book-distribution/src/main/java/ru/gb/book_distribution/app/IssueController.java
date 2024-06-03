@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gb.book_distribution.model.Issue;
-import ru.gb.book_distribution.services.IIssueService;
+import ru.gb.book_distribution.repository.IssueRepository;
 
 import java.util.List;
 
@@ -16,17 +16,17 @@ import java.util.List;
 @RequestMapping(path = "/ui")
 public class IssueController {
     @Autowired
-    private final IIssueService services;
+    private final IssueRepository repository;
 
 
-    public IssueController(IIssueService services) {
-        this.services = services;
+    public IssueController(IssueRepository repository) {
+        this.repository = repository;
     }
 
 
     @GetMapping(path = "/issue")
     public String list(Model model){
-        List<Issue> issues = this.services.getAll();
+        List<Issue> issues = this.repository.findAll();
         model.addAttribute("items", issues);
         log.info("Список читателей" + issues);
         return "tableReader";

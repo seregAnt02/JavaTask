@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.gb.book_distribution.model.Book;
-import ru.gb.book_distribution.repository.IBookRepository;
+import ru.gb.book_distribution.repository.BookRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,16 +14,15 @@ import java.util.Objects;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class BookService implements IBookService {
+public class StandardBookService{
 
     @Autowired
-    private IBookRepository repository;
-    @Override
+    private BookRepository repository;
+
     public List<Book> getAllBooks() {
         return repository.findAll();
     }
 
-    @Override
     public Book getBookById(Long id) {
         Book book = null;
         try {
@@ -40,14 +39,13 @@ public class BookService implements IBookService {
         return outBook ;
     }
 
-    @Override
+
     public Book updateBook(Long id, Book book) {
         Book existBook = getBookById(id);
         existBook.setName(book.getName());
         return existBook;
     }
 
-    @Override
     public Book deleteBook(Long id) {
         Book book = getBookById(id);
         if(book != null){
@@ -55,36 +53,5 @@ public class BookService implements IBookService {
         }
         return book;
     }
-
-   /* private final BookRepository repository;
-
-    public List<Book> getAllByBook(){
-        return repository.getAll();
-    }
-    public Book getBookById(long id){
-        return repository.getAll().stream()
-                .filter(it -> Objects.equals(it.getId(), id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public Book createBook(Book book){
-        Book outBook = new Book(book.getName());
-        repository.getAll().add(outBook);
-        return outBook ;
-    }
-    public Book updateBook(long id, Book book){
-        Book existBook = getBookById(id);
-        existBook.setName(book.getName());
-        return existBook;
-    }
-
-
-    public void deleteBook(long id){
-        Book book = getBookById(id);
-        if(book != null){
-            repository.getAll().removeIf(it -> Objects.equals(it.getId(), id));
-        }
-    }*/
 
 }

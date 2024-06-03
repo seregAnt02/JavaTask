@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.gb.book_distribution.model.Book;
-import ru.gb.book_distribution.services.BookService;
+import ru.gb.book_distribution.services.StandardBookService;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
 public class HomeController {
 
     @Autowired
-    private final BookService services;
+    private final StandardBookService services;
 
-    public HomeController(BookService services) {
+    public HomeController(StandardBookService services) {
         this.services = services;
     }
 
