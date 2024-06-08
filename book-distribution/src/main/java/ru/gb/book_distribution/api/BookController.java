@@ -1,4 +1,4 @@
-package ru.gb.book_distribution.app;
+package ru.gb.book_distribution.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
