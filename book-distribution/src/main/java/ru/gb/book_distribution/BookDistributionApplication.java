@@ -3,13 +3,19 @@ package ru.gb.book_distribution;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import ru.gb.book_distribution.model.User;
+import ru.gb.book_distribution.repository.UserRepository;
 
 @SpringBootApplication
 public class BookDistributionApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context	= SpringApplication.run(BookDistributionApplication.class, args);
+		/*
+		UserRepository userRepository = SpringApplication.run(BookDistributionApplication.class, args).getBean(UserRepository.class);
+		*/
 
+		
 		/*IBookRepository bookRepository = context.getBean(IBookRepository.class);
 
 		Book book = new Book();

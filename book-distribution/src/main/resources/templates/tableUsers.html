@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table Users</title>
+</head>
+<body>
+<h1>Table</h1>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
+
+    </tr>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.getId()}"></td>
+        <td th:text="${item.getLogin()}"></td>
+        <td th:text="${item.getPassword()}"></td>
+        <td th:text="${item.getRole()}"></td>
+    </tr>
+</table>
+</body>
+</html>
