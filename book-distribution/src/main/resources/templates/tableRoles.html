@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Roles</title>
+</head>
+<body>
+<h1>Table</h1>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+
+    </tr>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.getId()}"></td>
+        <td th:text="${item.getName()}"></td>
+    </tr>
+</table>
+</body>
+</html>
