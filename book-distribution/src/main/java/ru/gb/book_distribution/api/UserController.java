@@ -19,11 +19,11 @@ public class UserController {
     @Autowired
     private final StandartUserService service;
 
-    @GetMapping(path= "/all")
+    @GetMapping
     public String getUserAll(Model model){
         List<User> users = service.getUserAll();
         model.addAttribute("items", users);
-        log.info("Список читателей" + users);
+        log.info("Список пользователей" + users);
         return "tableUsers";
     }
 }

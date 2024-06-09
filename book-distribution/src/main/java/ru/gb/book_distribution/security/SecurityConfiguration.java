@@ -15,8 +15,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(register -> register
                         .requestMatchers("/api/resource/admin/**").hasAuthority("admin")
                         .requestMatchers("/api/resource/user/**").hasAuthority("user")
+                        .requestMatchers("/user/admin/**").hasAuthority("admin")
                         .requestMatchers("/api/resource/auth/**").authenticated()
                         .requestMatchers("/api/resource").permitAll()
+                        .requestMatchers("/user").permitAll()
                         .anyRequest().denyAll()
                 )
                 .formLogin(Customizer.withDefaults())
