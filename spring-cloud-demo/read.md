@@ -2,3 +2,9 @@
 
     Создать скриншот страницы /eureka/aps, зарегистрированными приложениями.
     На скриншоте должно быть видно оба сервиса(book-service, user-service)
+
+![link](.\screen\eureka.png)
+
+![link](.\screen\eureka1.png)
+
+![link](.\screen\eureka2.png)
