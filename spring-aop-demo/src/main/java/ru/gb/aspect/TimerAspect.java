@@ -31,20 +31,21 @@ public class TimerAspect {
   }
 
   @Around("beansAnnotatedWith() || methodAnnotatedWith()")
-  public Object timerAspect(ProceedingJoinPoint joinPoint) {
+  public Object timerAspect(ProceedingJoinPoint joinPoint) throws Throwable {
     final long start = System.currentTimeMillis();
     Object returnValue = null;
     try {
       returnValue = joinPoint.proceed();
+      final long finish = System.currentTimeMillis();
+      log.info(joinPoint.getTarget().getClass() + " - " + joinPoint.getSignature().getName() + " выполнение в секундах: #{}",
+              (finish - start) / 1000);
+      log.info("start: {} finish: {}", start, finish);
+      log.info("className: {}", joinPoint.getTarget().getClass());
+      log.info("methodName: {}", joinPoint.getSignature());
+      return returnValue;
     } catch (Throwable ex) {
       log.info("Exception in timerAspect() {}", ex.getMessage());
+      throw ex;
     }
-    final long finish = System.currentTimeMillis();
-    log.info(joinPoint.getTarget().getClass() + " - " + joinPoint.getSignature().getName() + " выполнение в секундах: #{}",
-        (finish - start) / 1000);
-    log.info("start: {} finish: {}", start, finish);
-    log.info("className: {}", joinPoint.getTarget().getClass());
-    log.info("methodName: {}", joinPoint.getSignature());
-    return returnValue;
   }
 }
