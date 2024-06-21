@@ -32,6 +32,7 @@ public class SecurityConfiguration {
         return httpSecurity
                 .authorizeHttpRequests(register -> register
                         .requestMatchers("/book/**").permitAll()
+                        .requestMatchers("/issue/**").permitAll()
                 )
                 //.formLogin(Customizer.withDefaults())
                 .build();

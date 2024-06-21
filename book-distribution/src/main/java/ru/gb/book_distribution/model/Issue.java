@@ -1,9 +1,6 @@
 package ru.gb.book_distribution.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -16,17 +13,24 @@ import java.time.format.DateTimeFormatter;
 public class Issue {
     private static long sequence = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "bookId")
     private long bookId;
+
     @Column(name = "readerId")
     private long readerId;
+
     @Column(name = "nameBook")
     private String nameBook;
+
     @Column(name = "nameRead")
     private String nameRead;
+
     @Column(name = "startTimestamp")
     private String startTimestamp;
+
     @Column(name = "endTimestamp")
     private String endTimestamp;
 

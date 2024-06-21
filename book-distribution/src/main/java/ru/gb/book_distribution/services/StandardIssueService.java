@@ -17,11 +17,27 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Service
-@RequiredArgsConstructor
 public class StandardIssueService{
     private final BookRepository bookRepository;
     private final ReaderRepository readerRepository;
     private final IssueRepository issueRepository;
+
+    public StandardIssueService(BookRepository bookRepository,
+                                ReaderRepository readerRepository, IssueRepository issueRepository) {
+        this.bookRepository = bookRepository;
+        this.readerRepository = readerRepository;
+        this.issueRepository = issueRepository;
+
+        addIssue(1L, 1L);
+        addIssue(2L, 2L);
+    }
+
+    void addIssue(long bookId, long readerId){
+        Issue issue = new Issue();
+        issue.setBookId(bookId);
+        issue.setReaderId(readerId);
+        this.issueRepository.save(issue);
+    }
 
     public Issue getIssById(Long id) {
         return issueRepository.findAll().stream()

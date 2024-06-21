@@ -3,7 +3,6 @@ package ru.gb.book_distribution;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -21,7 +20,7 @@ import java.util.Objects;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
 @RequiredArgsConstructor
-class BookControllerTest {
+class BookApiControllerTest {
 
 	@Autowired
 	WebTestClient webTestClient;

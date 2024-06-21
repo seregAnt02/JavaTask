@@ -11,12 +11,12 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(path = "/book")
-public class BookController {
+public class BookApiController {
 
     @Autowired
     private final StandardBookService services;
 
-    public BookController(StandardBookService bookServices) {
+    public BookApiController(StandardBookService bookServices) {
         this.services = bookServices;
     }
 
