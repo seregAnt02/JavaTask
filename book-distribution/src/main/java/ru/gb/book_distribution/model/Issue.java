@@ -45,4 +45,12 @@ public class Issue {
         this.startTimestamp = dtf.format(LocalDateTime.now());
         this.endTimestamp = "";
     }
+
+    public static Issue ofName(long bookId, long readerId){
+        Issue issue = new Issue();
+        issue.setId(1L);
+        issue.setBookId(bookId);
+        issue.setReaderId(readerId);
+        return issue;
+    }
 }

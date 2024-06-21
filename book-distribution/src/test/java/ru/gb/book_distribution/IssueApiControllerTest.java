@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import ru.gb.book_distribution.model.Book;
 import ru.gb.book_distribution.model.Issue;
 import ru.gb.book_distribution.repository.IssueRepository;
 
@@ -32,6 +33,23 @@ public class IssueApiControllerTest {
         private long bookId;
         private long readerId;
     }
+
+    @Test
+    void testFindByIdSuccess(){
+        Issue expected = repository.save(Issue.ofName(1L, 1L));
+
+        IssueApiControllerTest.JUnitIssueResponse responseBody = webTestClient.get()
+                .uri("/issue/1")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(IssueApiControllerTest.JUnitIssueResponse.class)
+                .returnResult()
+                .getResponseBody();
+
+        Assertions.assertNotNull(responseBody);
+        Assertions.assertEquals(expected.getBookId(), responseBody.bookId);
+    }
+
 
     @Test
     void testGetAll() {

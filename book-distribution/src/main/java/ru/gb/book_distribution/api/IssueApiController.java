@@ -23,10 +23,14 @@ public class IssueApiController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<Issue> getIssById(@PathVariable long id){
         Issue issue = repository.findById(id).get();
-        if(issue != null)
+        if(issue != null) {
             log.info("Пользователь найден: " + issue);
-        log.info("Внимание! Пользователь не найден: " + issue);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(issue);
+            return ResponseEntity.status(HttpStatus.OK).body(issue);
+        }
+        else {
+            log.info("Внимание! Пользователь не найден: " + issue);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(issue);
+        }
     }
 
 
@@ -46,7 +50,9 @@ public class IssueApiController {
 
     @GetMapping( path = "/all")
     public List<Issue> getAll(){
-        return repository.findAll();
+        List<Issue> list = repository.findAll();
+        log.info("Список Issue: " + list);
+        return list;
     }
 
     @DeleteMapping(path = "/{id}")
