@@ -13,11 +13,30 @@ import java.util.Objects;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class StandardBookService{
 
-    @Autowired
     private BookRepository repository;
+
+    public StandardBookService(BookRepository repository) {
+        this.repository = repository;
+
+        Book book = new Book();
+        book.setName("name1");
+        this.repository.save(book);
+
+        Book book1 = new Book();
+        book1.setName("name2");
+        this.repository.save(book1);
+
+        /*Book book2 = new Book();
+        book2.setId(-1);
+        book2.setName("random");
+        this.repository.save(book2);*/
+
+        Book bookRandom = new Book();
+        bookRandom.setName("random");
+        this.repository.save(bookRandom);
+    }
 
     public List<Book> getAllBooks() {
         return repository.findAll();

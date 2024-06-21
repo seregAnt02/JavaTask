@@ -28,8 +28,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = repository.findByLogin(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), List.of(
-                new SimpleGrantedAuthority(user.getRole())/*,
-                new SimpleGrantedAuthority("user")*/
+                new SimpleGrantedAuthority("admin"),
+                new SimpleGrantedAuthority("user")
         ));
     }
 
@@ -37,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = new User();
         user.setId(sequence++);
         user.setLogin(login);
-        user.setRole(role);
+        //user.setRole(role);
         user.setPassword(password);
         repository.save(user);
         System.out.println("findByLogin " + repository.findByLogin(login));

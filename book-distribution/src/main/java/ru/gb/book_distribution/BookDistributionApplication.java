@@ -2,10 +2,15 @@ package ru.gb.book_distribution;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import ru.gb.book_distribution.model.User;
 import ru.gb.book_distribution.repository.UserRepository;
 
+/*
+* Отключил систему безопасности Spring по умолчанию, исключив ее из автоконфигурации.
+* @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+* */
 @SpringBootApplication
 public class BookDistributionApplication {
 

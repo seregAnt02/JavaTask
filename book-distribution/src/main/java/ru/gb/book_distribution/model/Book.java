@@ -1,9 +1,6 @@
 package ru.gb.book_distribution.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class Book {
     private static long sequence = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "name")
     private String name;
@@ -25,5 +23,12 @@ public class Book {
     public Book(long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public static Book ofName(String name){
+        Book book = new Book();
+        book.setId(3L);
+        book.setName(name);
+        return book;
     }
 }

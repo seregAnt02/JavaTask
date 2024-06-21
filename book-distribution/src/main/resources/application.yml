@@ -1,3 +1,5 @@
+server:
+  port: 8180
 spring:
   datasource:
     url: jdbc:h2:mem:test
@@ -6,3 +8,8 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: issuer":"http://localhost:8080/realms/master
