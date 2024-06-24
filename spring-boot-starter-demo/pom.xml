@@ -24,6 +24,7 @@
 	<modules>
 		<module>book-service</module>
 		<module>http-logger-starter</module>
+		<module>spring-aop-service</module>
 	</modules>
 	<scm>
 		<connection/>

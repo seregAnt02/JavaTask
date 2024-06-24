@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>book-service</artifactId>
+    <artifactId>spring-aop-service</artifactId>
 
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
@@ -26,19 +26,12 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>ru.gb</groupId>
-            <artifactId>http-logger-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ru.gb</groupId>
-            <artifactId>spring-aop-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.22</version>
         </dependency>
     </dependencies>
 
