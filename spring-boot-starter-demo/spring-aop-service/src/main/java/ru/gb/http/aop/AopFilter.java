@@ -18,20 +18,11 @@ public class AopFilter implements Filter {
     @Autowired
     private MyServiceTime myServiceTime;
 
-
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        log.info("request {}", httpServletRequest);
-
-        chain.doFilter(request, response);
-
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        log.info("response {} {}", httpServletRequest.getServletPath(), httpServletResponse.getStatus());
-
         myServiceTime.method1("ok", 1);
         myServiceTime.method2();
+        myServiceTime.method3(request, response, chain);
     }
 }
