@@ -26,6 +26,7 @@
 		<module>http-logger-starter</module>
 		<module>spring-aop-service</module>
 		<module>issue-service</module>
+		<module>reader-service</module>
 	</modules>
 	<scm>
 		<connection/>
